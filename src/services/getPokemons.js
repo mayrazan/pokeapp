@@ -1,21 +1,18 @@
-import { URL_API, IMAGES_API } from "./api.js";
+import axios from "axios";
 
-export async function getPokemons(value) {
-  const pokemons = await fetch(URL_API(value)).then((response) =>
-    response.json().then((data) => {
-      //  console.log(data)
-      return data;
-    })
-  );
-  return pokemons;
-}
+export async function getPokemons(url) {
+  const response = await axios.get(url);
+  const nextPage = response.data.next;
+  const previousPage = response.data.previous;
 
-export async function getImagesPokemons(value) {
-  const pokemons = await fetch(IMAGES_API(value)).then((response) =>
-    response.json().then((data) => {
-        
-      return data;
-    })
-  );
-  return pokemons;
+  const listPokemons = response.data.results.map(async (value) => {
+    const getUrl = await axios.get(value.url);
+    const { data } = await Promise.resolve(getUrl);
+
+    return data;
+  });
+
+  const resultList = await Promise.all(listPokemons);
+
+  return { previous: previousPage, next: nextPage, result: resultList };
 }
