@@ -1,65 +1,75 @@
-import React, { useEffect, useState } from "react";
-import { getPokemons, getImagesPokemons } from "../../services/getPokemons";
+import api from "../../services/getPokemons.js";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export function Card() {
-  const [pokemons, setPokemons] = useState([]);
-  const [imagesPokemons, setImagesPokemons] = useState([]);
-  const [arrayPokemons, setArrayPokemons] = useState([]);
-  const [count, setCount] = useState(1);
-  const [pages, setPages] = useState({
-    next: "",
-    previous: "",
-    current: [],
-    offset: 20,
-  });
+  const [lastPokes, setLastPokes] = useState([]);
+  const [pokes, setPokes] = useState([]);
+  const [count, setCount] = useState(0);
+  const [currentPokemons, setCurrentPokemons] = useState(
+    `https://pokeapi.co/api/v2/pokemon/?${count}=0&limit=20`
+  );
 
-  const array = [];
+  const pokeData = async (id) => {
+    const data = await api.get(`pokemon/${id}`);
+    const po = await data.data;
+    setPokes((value) => [...value, po]);
+    return po;
+  };
+
+  async function getPokemons(offset) {
+    const response = (
+      await axios.get(`https://pokeapi.co/api/v2/pokemon/?${offset}=0&limit=20`)
+    ).data;
+    const pokenames = response.results;
+    const next = response.results?.map(async (e) => {
+      const r = await axios.get(e.url);
+      const { data } = await Promise.resolve(r);
+
+      return {
+        name: e.name,
+        id: data.id,
+        image: data?.sprites.front_default,
+      };
+    });
+
+    (async () => {
+      const result = await Promise.all(next);
+      setPokes(result);
+    })();
+
+    console.log(pokenames);
+
+    // for (let i = 1; i <= 20; i++) {
+    //   const result = await pokeData(i);
+
+    //   setLastPokes((value) => [...value, result]);
+
+    //   //console.log(result);
+    // }
+
+    //return pokenames;
+  }
+
   useEffect(() => {
-    (async () => {
-      const data = await getPokemons(pages.offset);
-      setPokemons(data.results);
-      setPages({
-        next: data.next,
-        previous: data.previous,
-        current: data.results,
-      });
-    })();
-    
-    while (count <= 20) {
-      showPokemons();
-      setCount(count+1)
-    }
-  }, []);
+    getPokemons(count);
+  }, [count]);
 
-  const getNext = useEffect(() => {
-    (async () => {
-      await setPages(pages.offset + 20);
-    })();
-  }, [pages.offset]);
-
-  console.log(arrayPokemons);
-
-  async function showPokemons() {
-    const imagesData = await getImagesPokemons(count);
-    array.push(imagesData);
-    setArrayPokemons(imagesData);
-    setImagesPokemons(arrayPokemons);
+  function onClick() {
+    setCount(count + 20);
   }
 
   return (
     <div>
-      {/* {Object.entries(arrayPokemons.name)}
-      <img src={arrayPokemons.sprites.front_default} alt=""/> */}
-      {Object.keys(arrayPokemons).map((poke) => {
+      {pokes.map((el) => {
         return (
-          <div key={poke.id}>
-            {poke.name}
-            <img src={poke.sprites} />
+          <div key={el.name}>
+            {el.name}
+            <img src={el.image} alt=""></img>
           </div>
         );
       })}
-
-      <button onClick={getNext}>1</button>
+      <button onClick={onClick}>Proximo</button>
     </div>
   );
 }
