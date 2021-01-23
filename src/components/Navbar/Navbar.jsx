@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import ImagemPO from "../../assets/pokemon-logo.png";
 
-export function NavBarPage() {
+export function NavBarPage({children}) {
   return (
     <Navbar bg="ligth" expand="lg">
       <Navbar.Brand href="/">
@@ -19,14 +19,15 @@ export function NavBarPage() {
           <Nav.Link href="/">Todos os Pokemons</Nav.Link>
           <Nav.Link href="/my-pokemons">Meus Pokemons</Nav.Link>
         </Nav>
-        <Form inline>
+        {/* <Form inline>
           <FormControl
             type="text"
             placeholder="Pesquisar"
             className="mr-sm-2"
           />
           <Button variant="outline-success">Busca Pokemon</Button>
-        </Form>
+        </Form> */}
+        {children}
       </Navbar.Collapse>
     </Navbar>
   );

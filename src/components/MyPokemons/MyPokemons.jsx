@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ButtonCard } from "../Button/ButtonCard";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import FormControl from "react-bootstrap/FormControl";
+import { NavBarPage } from "../Navbar/Navbar";
 
 export function MyPokemons() {
   const [storagePokemon, setStoragePokemon] = useState([]);
@@ -11,7 +15,7 @@ export function MyPokemons() {
   function releasePokemon(id) {
     const result = getPokemonSelected.map((el) => {
       const filterResults = el.filter((e) => e.id !== id);
-     // getPokemonSelected.splice(filterResults, 1);
+      // getPokemonSelected.splice(filterResults, 1);
       return filterResults;
     });
     localStorage.setItem("result", JSON.stringify(result));
@@ -20,6 +24,17 @@ export function MyPokemons() {
 
   return (
     <div>
+      <NavBarPage>
+        <Form inline>
+          <FormControl
+            type="text"
+            placeholder="Pesquisar"
+            className="mr-sm-2"
+          />
+          <Button variant="outline-success">Busca Pokemon</Button>
+        </Form>
+      </NavBarPage>
+      
       {getPokemonSelected !== null ? (
         getPokemonSelected.map((el) => {
           return el.map((e) => {

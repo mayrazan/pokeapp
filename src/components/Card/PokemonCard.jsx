@@ -1,14 +1,17 @@
 import { URL_API } from "../../services/api.js";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { getPokemons } from "../../services/getPokemons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import { ButtonCard } from "../Button/ButtonCard";
 import Card from "react-bootstrap/Card";
 import "./PokemonCard.css";
 import { Loading } from "../Loading/Loading.jsx";
 import { Detalhar } from "./Detail";
-import { CustomDialog } from 'react-st-modal';
+import { CustomDialog } from "react-st-modal";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import FormControl from "react-bootstrap/FormControl";
+import { NavBarPage } from "../Navbar/Navbar";
 
 export function PokemonCard() {
   const [pokes, setPokes] = useState([]);
@@ -18,6 +21,8 @@ export function PokemonCard() {
   });
   const [load, setLoad] = useState(true);
   const [storagePokemon, setStoragePokemon] = useState([]);
+  const [resultSearch, setResultSearch] = useState([]);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -25,6 +30,7 @@ export function PokemonCard() {
       setPokes(response.result);
       setPages({ previous: response.previous, next: response.next });
       setTimeout(() => setLoad(false), 500);
+      setResultSearch(response.result);
     })();
   }, []);
 
@@ -55,8 +61,50 @@ export function PokemonCard() {
     return pokemon;
   }
 
+  function onChange(event) {
+    setInput(event.target.value);
+  }
+
+   async function onSubmit() {
+    if (input === "") {
+      return pokes;
+    } else {
+      return await pokes.filter((pokemon) => {
+        return pokemon.name.toLowerCase().indexOf(input) > -1;
+      });
+    }
+  }
+
+
+  const getSearchedList = useCallback(async () => {
+    const data = await onSubmit();
+    setResultSearch(data);
+   
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const data = await onSubmit();
+      setResultSearch(data);
+      console.log(data)
+    })();
+  }, []);
+
   return (
     <div>
+      <NavBarPage>
+        <Form inline>
+          <FormControl
+            type="text"
+            placeholder="Pesquisar"
+            className="mr-sm-2"
+            onChange={onChange}
+          />
+          <Button variant="outline-success" onClick={onSubmit}>
+            Busca Pokemon
+          </Button>
+        </Form>
+      </NavBarPage>
       {load ? (
         <Loading />
       ) : (
