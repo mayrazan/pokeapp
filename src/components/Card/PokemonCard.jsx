@@ -7,6 +7,8 @@ import { ButtonCard } from "../Button/ButtonCard";
 import Card from "react-bootstrap/Card";
 import "./PokemonCard.css";
 import { Loading } from "../Loading/Loading.jsx";
+import { Detalhar } from "./Detail";
+import { CustomDialog } from 'react-st-modal';
 
 export function PokemonCard() {
   const [pokes, setPokes] = useState([]);
@@ -45,8 +47,11 @@ export function PokemonCard() {
 
     setStoragePokemon([...storagePokemon, result]);
 
-    let pokemon = localStorage.setItem("result", JSON.stringify(storagePokemon));
-    
+    let pokemon = localStorage.setItem(
+      "result",
+      JSON.stringify(storagePokemon)
+    );
+
     return pokemon;
   }
 
@@ -60,7 +65,17 @@ export function PokemonCard() {
             return (
               <div key={el.id} className="card-container">
                 <Card style={{ width: "10rem" }}>
-                  <Card.Img variant="top" src={el.sprites.front_default} />
+                  {/* <Card.Img variant="top" src={el.sprites.front_default} /> */}
+                  <Card.Img
+                    src={el.sprites.front_default}
+                    alt=""
+                    onClick={async () => {
+                      await CustomDialog(<Detalhar id={el.id} />, {
+                        title: "Detalhes do Pokemon",
+                        showCloseIcon: true,
+                      });
+                    }}
+                  ></Card.Img>
                   <Card.Body>
                     <Card.Title>{el.name}</Card.Title>
                     <ButtonCard
