@@ -1,6 +1,12 @@
+import React from "react";
+import "./loadingStyle.css";
+
+
 export function Loading(){
 
     return (
-        <h1>Carregando...</h1>
+        <h1 className="loadingStyle">Carregando...</h1>
+               
     )
 }
+
