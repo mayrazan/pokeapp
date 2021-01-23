@@ -66,8 +66,9 @@ export function PokemonCard() {
           {pokes.map((el) => {
             return (
               <div key={el.id} className="card-container">
-                <Card style={{ width: "10rem" }}>
+                <Card style={{ width: "10rem" }} key={el.id}>
                   <Card.Img
+                    key={el.id}
                     src={el.sprites.front_default}
                     alt=""
                     onClick={async () => {
