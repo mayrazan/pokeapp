@@ -1,21 +1,10 @@
-
 import "./App.css";
-import { Card } from "./components/Card/Card";
-import { ButtonCard } from "./components/Button/ButtonCard";
-import { NavBarTeste } from "./components/Navbar/Navbar";
+import { Home } from "./pages/Home/Home";
 
 function App() {
-  function capturar() {
-       
-     console.log("Capturado!")
-    
-  }
   return (
     <div className="App">
-      <NavBarTeste></NavBarTeste>
-      <Card />
-      <ButtonCard onClick={capturar}></ButtonCard>
-      
+      <Home />
     </div>
   );
 }

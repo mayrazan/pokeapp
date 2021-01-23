@@ -6,9 +6,9 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import ImagemPO from "../../assets/pokemon-logo.png";
 
-export function NavBarTeste({ className }) {
+export function NavBarPage() {
   return (
-    <Navbar className={className} bg="ligth" expand="lg">
+    <Navbar bg="ligth" expand="lg">
       <Navbar.Brand href="#home">
         {" "}
         <img src={ImagemPO} width="200px" alt="logo" />{" "}
@@ -16,8 +16,8 @@ export function NavBarTeste({ className }) {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#todospk">Todos os Pokemons</Nav.Link>
-          <Nav.Link href="#meuspk">Meus Pokemons</Nav.Link>
+          <Nav.Link href="/">Todos os Pokemons</Nav.Link>
+          <Nav.Link href="/my-pokemons">Meus Pokemons</Nav.Link>
         </Nav>
         <Form inline>
           <FormControl
