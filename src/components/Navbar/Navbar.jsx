@@ -9,7 +9,7 @@ import ImagemPO from "../../assets/pokemon-logo.png";
 export function NavBarPage() {
   return (
     <Navbar bg="ligth" expand="lg">
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="/">
         {" "}
         <img src={ImagemPO} width="200px" alt="logo" />{" "}
       </Navbar.Brand>
