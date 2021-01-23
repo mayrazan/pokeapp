@@ -1,10 +1,10 @@
 .estiloButton{
     background-color: red;
     color: yellow;
-    width: 65px;
     height: 35px;
     font-weight: bolder;
     font-size: 15px;
     border: red 0.5px solid;
     border-radius: 5px;
+    text-align: center;
 }
