@@ -15,6 +15,7 @@ export function PokemonCard() {
     next: "",
   });
   const [load, setLoad] = useState(true);
+  const [storagePokemon, setStoragePokemon] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -39,6 +40,16 @@ export function PokemonCard() {
     setPages({ previous: response.previous, next: response.next });
   };
 
+  function capturePokemon(name) {
+    const result = pokes.filter((el) => el.name === name);
+
+    setStoragePokemon([...storagePokemon, result]);
+
+    let pokemon = localStorage.setItem("result", JSON.stringify(storagePokemon));
+    
+    return pokemon;
+  }
+
   return (
     <div>
       {load ? (
@@ -52,7 +63,10 @@ export function PokemonCard() {
                   <Card.Img variant="top" src={el.sprites.front_default} />
                   <Card.Body>
                     <Card.Title>{el.name}</Card.Title>
-                    <ButtonCard name="Capturar" />
+                    <ButtonCard
+                      name="Capturar"
+                      onClick={() => capturePokemon(el.name)}
+                    />
                   </Card.Body>
                 </Card>
               </div>
