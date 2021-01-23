@@ -43,7 +43,7 @@ export function Card() {
             <img src={el.sprites.front_default} alt=""  onClick={async () => 
             {await CustomDialog(<Detalhar id={el.id}/>,
             {
-              title: 'Detalhes do Pokemon',
+              title: 'Pokemon Details',
               showCloseIcon: true,
             });}}></img>
           </div>
