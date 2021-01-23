@@ -1,7 +1,7 @@
 
 import "./App.css";
 import { Card } from "./components/Card/Card";
-import { Button } from "./components/Button/button";
+import { ButtonCard } from "./components/Button/ButtonCard";
 import { NavBarTeste } from "./components/Navbar/Navbar";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     <div className="App">
       <NavBarTeste></NavBarTeste>
       <Card />
-      <Button onClick={capturar}></Button>
+      <ButtonCard onClick={capturar}></ButtonCard>
       
     </div>
   );
