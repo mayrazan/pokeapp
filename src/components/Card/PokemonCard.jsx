@@ -2,13 +2,14 @@ import { URL_API } from "../../services/api.js";
 import React, { useState, useEffect } from "react";
 import { getPokemons } from "../../services/getPokemons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
 import { ButtonCard } from "../Button/ButtonCard";
 import Card from "react-bootstrap/Card";
 import "./PokemonCard.css";
 import { Loading } from "../Loading/Loading.jsx";
 import { Detalhar } from "./Detail";
-import { CustomDialog } from 'react-st-modal';
+import { CustomDialog } from "react-st-modal";
+import Button from "react-bootstrap/Button";
+import { NavBarSearch } from "../Navbar/NavBarSearch";
 
 export function PokemonCard() {
   const [pokes, setPokes] = useState([]);
@@ -57,6 +58,7 @@ export function PokemonCard() {
 
   return (
     <div>
+      <NavBarSearch pokes={pokes} setPokes={setPokes} />
       {load ? (
         <Loading />
       ) : (
@@ -65,7 +67,6 @@ export function PokemonCard() {
             return (
               <div key={el.id} className="card-container">
                 <Card style={{ width: "10rem" }}>
-                  {/* <Card.Img variant="top" src={el.sprites.front_default} /> */}
                   <Card.Img
                     src={el.sprites.front_default}
                     alt=""
