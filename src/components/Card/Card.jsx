@@ -1,8 +1,11 @@
 import { URL_API } from "../../services/api.js";
 import React, { useState, useEffect } from "react";
 import { getPokemons } from "../../services/getPokemons";
+import { Detalhar } from "./Detail";
+import { CustomDialog } from 'react-st-modal';
 
 export function Card() {
+  
   const [pokes, setPokes] = useState([]);
   const [pages, setPages] = useState({
     previous: "",
@@ -37,7 +40,12 @@ export function Card() {
         return (
           <div key={el.id}>
             {el.name}
-            <img src={el.sprites.front_default} alt=""></img>
+            <img src={el.sprites.front_default} alt=""  onClick={async () => 
+            {await CustomDialog(<Detalhar id={el.id}/>,
+            {
+              title: 'Detalhes do Pokemon',
+              showCloseIcon: true,
+            });}}></img>
           </div>
         );
       })}
